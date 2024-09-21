@@ -3,6 +3,11 @@ import type { NextRequest } from 'next/server'
 
 import { auth } from '@/auth'
 
+/**
+ * 로그인 이후 이동할 페이지
+ */
+export const DEFAULT_LOGIN_REDIRECT = '/dashboard'
+
 export const middleware = async (request: NextRequest) => {
   console.log('middleware', request.url)
   const session = await auth()

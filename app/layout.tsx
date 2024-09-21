@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import { SessionProvider } from 'next-auth/react'
 
 import './globals.css'
 
@@ -25,12 +26,13 @@ const RootLayout = ({
 }: Readonly<{
   children: ReactNode
 }>) => {
+  console.log('layout', process.env.AUTH_SECRET)
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   )
