@@ -1,21 +1,27 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+// import { NextResponse } from 'next/server'
+// import type { NextRequest } from 'next/server'
 
-import { auth } from '@/auth'
+import NextAuth from 'next-auth'
+
+import authConfig from './auth.config'
 
 /**
  * 로그인 이후 이동할 페이지
  */
 export const DEFAULT_LOGIN_REDIRECT = '/dashboard'
 
-export const middleware = async (request: NextRequest) => {
-  console.log('middleware', request.url)
-  const session = await auth()
+// Middleware code always runs in an edge runtime.
 
-  if (request.url.includes('dashboard') && !session) {
-    return NextResponse.redirect(new URL('/home', request.url))
-  }
-}
+export const { auth: middleware } = NextAuth(authConfig)
+
+// export const middleware = async (request: NextRequest) => {
+//   // console.log('middleware', request.url)
+//   // const session = await auth()
+//
+//   // if (request.url.includes('dashboard') && !session) {
+//   //   return NextResponse.redirect(new URL('/home', request.url))
+//   // }
+// }
 
 export const config = {
   matcher: [

@@ -19,12 +19,15 @@ const Dashboard = () => {
       <h1>Dashboard Page</h1>
       <Avatar>
         <AvatarImage
+          // TODO: null 제거 방법
           src={user.image ?? undefined}
           alt={user.name ?? undefined}
         />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      <Button onClick={() => void signOut()}>Sign out</Button>
+      <Button onClick={() => void signOut({ redirectTo: '/' })}>
+        Sign out
+      </Button>
     </div>
   )
 }

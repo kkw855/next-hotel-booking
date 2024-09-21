@@ -26,12 +26,12 @@ const RootLayout = ({
 }: Readonly<{
   children: ReactNode
 }>) => {
-  console.log('layout', process.env.AUTH_SECRET)
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* TODO: 클라이언트 대신 서버 렌더링 으로 사용하게 */}
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>

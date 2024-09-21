@@ -2,8 +2,6 @@ import { Hono } from 'hono'
 import { handle } from 'hono/vercel'
 import { Config, Effect, pipe } from 'effect'
 
-export const runtime = 'edge'
-
 const apiPath = pipe(
   Effect.gen(function* () {
     return yield* Config.string('API_PATH')
