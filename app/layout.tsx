@@ -5,6 +5,7 @@ import { SessionProvider } from 'next-auth/react'
 
 import './globals.css'
 import { Navbar } from '@/app/navbar'
+import { ThemeProvider } from '@/components/theme-provider'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -34,10 +35,17 @@ const RootLayout = ({
       >
         {/* TODO: 클라이언트 대신 서버 렌더링 으로 사용하게 */}
         <SessionProvider>
-          <main className="flex min-h-screen flex-col bg-secondary">
-            <Navbar />
-            <section className="flex-grow">{children}</section>
-          </main>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main className="flex min-h-screen flex-col bg-secondary">
+              <Navbar />
+              <section className="flex-grow">{children}</section>
+            </main>
+          </ThemeProvider>
         </SessionProvider>
       </body>
     </html>

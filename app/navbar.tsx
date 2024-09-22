@@ -7,12 +7,12 @@ import { SearchInput } from '@/components/search-input'
 
 import { auth } from '@/auth'
 import { match } from 'ts-pattern'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 export const Navbar = async () => {
   const session = await auth()
 
   return (
-    // sticky top-0
     <nav className="sticky top-0 border border-b-primary/10 bg-secondary">
       {/* w-full */}
       <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-4 p-4 xl:px-20">
@@ -24,7 +24,7 @@ export const Navbar = async () => {
         <SearchInput />
 
         <div className="flex items-center gap-8">
-          <div>Theme</div>
+          <ThemeToggle />
           {match(session?.user)
             .with(undefined, () => (
               <>
