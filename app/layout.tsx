@@ -4,6 +4,7 @@ import localFont from 'next/font/local'
 import { SessionProvider } from 'next-auth/react'
 
 import './globals.css'
+import { Navbar } from '@/app/navbar'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -32,7 +33,12 @@ const RootLayout = ({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* TODO: 클라이언트 대신 서버 렌더링 으로 사용하게 */}
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          <main className="flex min-h-screen flex-col bg-secondary">
+            <Navbar />
+            <section className="flex-grow">{children}</section>
+          </main>
+        </SessionProvider>
       </body>
     </html>
   )

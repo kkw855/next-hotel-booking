@@ -71,7 +71,7 @@
       "error",
       {
         "html": "ignore",
-        "exceptions": ["Form", "Input"]
+        "exceptions": ["Form", "Input", "NextThemesProvider"]
       }
     ],
     "react/react-in-jsx-scope": "off",
