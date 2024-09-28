@@ -1,13 +1,22 @@
 import Link from 'next/link'
+import { match } from 'ts-pattern'
 import { FaBed } from 'react-icons/fa'
 
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { SearchInput } from '@/components/search-input'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
-import { auth } from '@/features/auth/auth'
-import { match } from 'ts-pattern'
+import { SearchInput } from '@/components/search-input'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { NavMenu } from '@/app/nav-menu'
+
+import { auth, signOut } from '@/features/auth'
+import { LogOut } from 'lucide-react'
 
 export const Navbar = async () => {
   const session = await auth()
@@ -24,6 +33,7 @@ export const Navbar = async () => {
 
         <div className="flex items-center gap-8">
           <ThemeToggle />
+          <NavMenu />
           {match(session?.user)
             .with(undefined, () => (
               <>
@@ -36,14 +46,32 @@ export const Navbar = async () => {
               </>
             ))
             .otherwise((user) => (
-              <Avatar>
-                <AvatarImage
-                  // TODO: null 제거 방법
-                  src={user.image ?? undefined}
-                  alt={user.name ?? undefined}
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage
+                      // TODO: null 제거 방법
+                      src={user.image ?? undefined}
+                      alt={user.name ?? undefined}
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <form
+                    action={async () => {
+                      'use server'
+                      await signOut({ redirectTo: '' })
+                    }}
+                  >
+                    <DropdownMenuItem>
+                      <Button variant="ghost" size="sm" className="gap-2">
+                        <LogOut /> Sign out
+                      </Button>
+                    </DropdownMenuItem>
+                  </form>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ))}
         </div>
       </div>

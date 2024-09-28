@@ -8,7 +8,7 @@ import { signIn } from '@/features/auth'
 
 export const LoginForm = () => {
   return (
-    <Card className="w-[400px] shadow-md">
+    <Card className="shadow-md">
       <CardHeader>
         <h1 className="text-xl font-bold">Sign in</h1>
         <p className="text-gray-400">to continue to stay-savvy</p>
@@ -30,6 +30,7 @@ export const LoginForm = () => {
             Continue with Google
           </Button>
         </form>
+        {/* TODO: separator 노출 안되는 문제 */}
         <div className="flex items-center text-center">
           <Separator className="w-5/12" />
           <p className="w-full">or</p>
