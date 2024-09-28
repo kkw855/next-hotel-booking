@@ -17,6 +17,7 @@ export const LoginForm = () => {
         <form
           action={async () => {
             'use server'
+            // TODO: SignIn 처리 loading, button disable
             await signIn('google', { redirectTo: '/dashboard' })
           }}
         >
