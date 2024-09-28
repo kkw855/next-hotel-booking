@@ -1,9 +1,9 @@
 import NextAuth, { NextAuthConfig } from 'next-auth'
-import Google from 'next-auth/providers/google'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
+import Google from 'next-auth/providers/google'
+import { redirect } from 'next/navigation'
 
 import { db } from '@/db/db'
-import { redirect } from 'next/navigation'
 
 export const checkLoginRedirect = (callbackUrl: string) =>
   redirect(`/sign-in?callbackUrl=${callbackUrl}`)
@@ -23,4 +23,4 @@ const authConfig = {
   },
 } satisfies NextAuthConfig
 
-export const { handlers, auth, signOut } = NextAuth(authConfig)
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig)

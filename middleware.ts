@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth'
 
-import { authConfig } from '@/features/auth'
+import { authConfig } from '@/features/auth/auth.config'
 
 /**
  * 로그인 이후 이동할 페이지
@@ -9,7 +9,7 @@ export const DEFAULT_LOGIN_REDIRECT = '/dashboard'
 
 // Middleware code always runs in an edge runtime.
 
-export const { auth: middleware } = NextAuth(authConfig)
+export default NextAuth(authConfig).auth
 
 export const config = {
   matcher: [

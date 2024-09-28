@@ -1,22 +1,12 @@
-'use client'
-
-import { signIn } from 'next-auth/react'
-import { Effect } from 'effect'
 import { FcGoogle } from 'react-icons/fc'
 
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 
-import { DEFAULT_LOGIN_REDIRECT } from '@/middleware'
+import { signIn } from '@/features/auth'
 
 export const LoginForm = () => {
-  const onClick = Effect.promise(() =>
-    signIn('google', {
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
-    }),
-  )
-
   return (
     <Card className="w-[400px] shadow-md">
       <CardHeader>
@@ -24,15 +14,21 @@ export const LoginForm = () => {
         <p className="text-gray-400">to continue to stay-savvy</p>
       </CardHeader>
       <CardContent className="space-y-6">
-        <Button
-          variant="outline"
-          size="lg"
-          className="flex w-full justify-start gap-4"
-          onClick={() => void Effect.runPromise(onClick)}
+        <form
+          action={async () => {
+            'use server'
+            await signIn('google', { redirectTo: '/dashboard' })
+          }}
         >
-          <FcGoogle className="h-6 w-6" />
-          Continue with Google
-        </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="flex w-full justify-start gap-4"
+          >
+            <FcGoogle className="h-6 w-6" />
+            Continue with Google
+          </Button>
+        </form>
         <div className="flex items-center text-center">
           <Separator className="w-5/12" />
           <p className="w-full">or</p>
