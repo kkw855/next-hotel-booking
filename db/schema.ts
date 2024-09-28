@@ -1,4 +1,3 @@
-import type { AdapterAccountType } from 'next-auth/adapters'
 import {
   pgTable,
   primaryKey,
@@ -7,12 +6,13 @@ import {
   integer,
   boolean,
 } from 'drizzle-orm/pg-core'
+import type { AdapterAccountType } from 'next-auth/adapters'
 import { createId } from '@paralleldrive/cuid2'
 
 export const users = pgTable('user', {
   id: text('id')
     .primaryKey()
-    .$defaultFn(() => createId()),
+    .$default(() => createId()),
   name: text('name'),
   email: text('email').unique(),
   emailVerified: timestamp('emailVerified', { mode: 'date' }),
@@ -85,3 +85,86 @@ export const authenticators = pgTable(
     }),
   }),
 )
+
+// TODO: https://orm.drizzle.team/learn/guides/postgresql-full-text-search 추가
+// TODO: 인덱스 설정 추가
+export const hotel = pgTable('hotel', {
+  id: text('id')
+    .primaryKey()
+    .$default(() => createId()),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  title: text('title'),
+  description: text('description'),
+  image: text('image'),
+  country: text('country'),
+  state: text('state'),
+  city: text('city'),
+  locationDescription: text('locationDescription'),
+  gym: boolean('gym'),
+  spa: boolean('spa'),
+  bar: boolean('bar'),
+  laundry: boolean('laundry'),
+  restaurant: boolean('restaurant'),
+  shopping: boolean('shopping'),
+  freeParking: boolean('freeParking'),
+  bikeRental: boolean('bikeRental'),
+  freeWifi: boolean('freeWifi'),
+  movieNights: boolean('movieNights'),
+  swimmingPool: boolean('swimmingPool'),
+  coffeeShop: boolean('coffeeShop'),
+  addedAt: timestamp('addedAt').notNull().defaultNow(),
+  updatedAt: timestamp('updatedAt').$onUpdate(() => new Date()),
+})
+
+export const room = pgTable('room', {
+  hotelId: text('hotelId')
+    .notNull()
+    .references(() => hotel.id, { onDelete: 'cascade' }),
+  id: text('id')
+    .primaryKey()
+    .$default(() => createId()),
+  title: text('title'),
+  description: text('description'),
+  bedCount: integer('bedCount'),
+  guestCount: integer('guestCount'),
+  bathroomCount: integer('bathroomCount'),
+  kingBed: integer('kingBed'),
+  queenBen: integer('queenBen'),
+  image: text('image'),
+  breakFastPrice: integer('breakFastPrice'),
+  roomPrice: integer('roomPrice'),
+  roomService: boolean('roomService'),
+  TV: boolean('tv'),
+  balcony: boolean('balcony'),
+  freeWifi: boolean('freeWifi'),
+  cityView: boolean('cityView'),
+  oceanView: boolean('oceanView'),
+  mountainView: boolean('mountainView'),
+  airCondition: boolean('airCondition'),
+  soundProofed: boolean('soundProofed'),
+})
+
+export const booking = pgTable('booking', {
+  hotelId: text('hotelId')
+    .notNull()
+    .references(() => hotel.id, { onDelete: 'cascade' }),
+  // hotelOwnerId
+  roomId: text('roomId')
+    .notNull()
+    .references(() => room.id, { onDelete: 'cascade' }),
+  id: text('id')
+    .primaryKey()
+    .$default(() => createId()),
+  userName: text('userName'),
+  userId: text('userId'),
+  startDate: timestamp('startDate'),
+  endDate: timestamp('endDate'),
+  breakFastIncluded: boolean('breakFastIncluded'),
+  currency: text('currency'),
+  totalPrice: integer('totalPrice'),
+  paymentStatus: boolean('paymentStatus'),
+  paymentIntentId: text('paymentIntentId'),
+  bookedAt: timestamp('bookedAt').$default(() => new Date()),
+})

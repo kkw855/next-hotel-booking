@@ -20,17 +20,17 @@ export const NavMenu = () => {
       <DropdownMenuContent align="end">
         <DropdownMenuItem asChild className="gap-2">
           <Link href="/hotel/new">
-            <Plus /> Add Hotel
+            <Plus size={15} /> Add Hotel
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="gap-2">
           <Link href="/hotel/new">
-            <Building /> My Hotels
+            <Building size={15} /> My Hotels
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="gap-2">
           <Link href="/hotel/new">
-            <BookOpenCheck /> My Bookings
+            <BookOpenCheck size={15} /> My Bookings
           </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
