@@ -1,21 +1,16 @@
-'use client'
+import { auth, checkLoginRedirect } from '@/features/auth/auth'
 
-// import { signOut, useSession } from 'next-auth/react'
+export async function Dashboard() {
+  const session = await auth()
 
-// import { Button } from '@/components/ui/button'
-
-const Dashboard = () => {
-  // const session = useSession()
-  //
-  // if (!session.data?.user) return 'Not Auth'
-  //
-  // const user = session.data.user
-  //
-  // console.log('session', session)
+  if (!session?.user) {
+    checkLoginRedirect('dashboard')
+  }
 
   return (
     <div>
       <h1>Dashboard Page</h1>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
       {/*<Button onClick={() => void signOut({ redirectTo: '/' })}>*/}
       {/*  Sign out*/}
       {/*</Button>*/}

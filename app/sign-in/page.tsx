@@ -2,8 +2,8 @@ import { LoginForm } from '@/components/auth/login-form'
 
 const SignInPage = () => {
   return (
-    // TODO: center
-    <div className="flex items-center justify-center">
+    // TODO: more effective center
+    <div className="flex translate-y-72 transform items-center justify-center">
       <LoginForm />
     </div>
   )

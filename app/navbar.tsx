@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { SearchInput } from '@/components/search-input'
 
-import { auth } from '@/auth'
+import { auth } from '@/features/auth/auth'
 import { match } from 'ts-pattern'
 import { ThemeToggle } from '@/components/theme-toggle'
 
@@ -14,8 +14,7 @@ export const Navbar = async () => {
 
   return (
     <nav className="sticky top-0 border border-b-primary/10 bg-secondary">
-      {/* w-full */}
-      <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-4 p-4 xl:px-20">
+      <div className="mx-auto flex w-full max-w-[1920px] items-center justify-between gap-4 p-4 xl:px-20">
         <Link href="/" className="flex items-center gap-1">
           <FaBed className="h-8 w-8 text-blue-500" />
           <div className="font-bold">StaySavvy</div>
