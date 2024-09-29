@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1726914974697,
-      "tag": "0000_unusual_wrecker",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1727517660758,
-      "tag": "0001_happy_salo",
+      "when": 1727599075947,
+      "tag": "0000_sharp_slapstick",
       "breakpoints": true
     }
   ]

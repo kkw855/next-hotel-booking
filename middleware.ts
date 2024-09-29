@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth'
 
-import { authConfig } from '@/features/auth/auth.config'
-
+import { authConfig } from '@/features/auth/auth'
 /**
  * 로그인 이후 이동할 페이지
  */

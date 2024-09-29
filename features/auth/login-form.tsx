@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 
-import { signIn } from '@/features/auth'
+import { signIn } from '@/features/auth/auth'
 
 export const LoginForm = () => {
   return (
@@ -22,6 +22,7 @@ export const LoginForm = () => {
           }}
         >
           <Button
+            type="submit"
             variant="outline"
             size="lg"
             className="flex w-full justify-start gap-4"

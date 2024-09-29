@@ -1,23 +1,23 @@
 import NextAuth, { NextAuthConfig } from 'next-auth'
+import Google from '@auth/core/providers/google'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
-import Google from 'next-auth/providers/google'
 import { redirect } from 'next/navigation'
 
 import { db } from '@/db/db'
 
-export const checkLoginRedirect = (callbackUrl: string) =>
+export const redirectLoginPage = (callbackUrl: string) =>
   redirect(`/sign-in?callbackUrl=${callbackUrl}`)
 
-const authConfig = {
+export const authConfig = {
+  providers: [Google],
+  adapter: DrizzleAdapter(db),
   pages: {
     signIn: '/sign-in',
   },
-  providers: [Google],
-  adapter: DrizzleAdapter(db),
   callbacks: {
-    // 사용자가 로그인할 때 호출됨
-    session({ session, user }) {
-      console.log(session, user)
+    async session({ session, user }) {
+      console.log('session', session, user)
+      session.user.id = user.id
       return session
     },
   },

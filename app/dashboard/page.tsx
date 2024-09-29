@@ -1,10 +1,10 @@
-import { auth, checkLoginRedirect } from '@/features/auth/auth'
+import { auth, redirectLoginPage } from '@/features/auth/auth'
 
 export async function Dashboard() {
   const session = await auth()
 
   if (!session?.user) {
-    checkLoginRedirect('dashboard')
+    redirectLoginPage('dashboard')
   }
 
   return (

@@ -15,7 +15,7 @@ import { SearchInput } from '@/components/search-input'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { NavMenu } from '@/app/nav-menu'
 
-import { auth, signOut } from '@/features/auth'
+import { auth, signOut } from '@/features/auth/auth'
 import { LogOut } from 'lucide-react'
 
 export const Navbar = async () => {

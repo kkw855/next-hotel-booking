@@ -1,5 +1,5 @@
 {
-  "id": "12605860-9e34-4a3f-b744-e59c66f4b71d",
+  "id": "c2a8d97a-67b5-4509-8d35-46a55aeaff9a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -173,6 +173,497 @@
           "columns": ["credentialID"]
         }
       }
+    },
+    "public.booking": {
+      "name": "booking",
+      "schema": "",
+      "columns": {
+        "hotelId": {
+          "name": "hotelId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hotelOwnerId": {
+          "name": "hotelOwnerId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "roomId": {
+          "name": "roomId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userName": {
+          "name": "userName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "startDate": {
+          "name": "startDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "endDate": {
+          "name": "endDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "breakFastIncluded": {
+          "name": "breakFastIncluded",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalPrice": {
+          "name": "totalPrice",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "paymentStatus": {
+          "name": "paymentStatus",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "paymentIntentId": {
+          "name": "paymentIntentId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bookedAt": {
+          "name": "bookedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "bookings_hotel_index": {
+          "name": "bookings_hotel_index",
+          "columns": [
+            {
+              "expression": "hotelId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "bookings_room_index": {
+          "name": "bookings_room_index",
+          "columns": [
+            {
+              "expression": "roomId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "booking_hotelId_hotel_id_fk": {
+          "name": "booking_hotelId_hotel_id_fk",
+          "tableFrom": "booking",
+          "tableTo": "hotel",
+          "columnsFrom": ["hotelId"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "booking_roomId_room_id_fk": {
+          "name": "booking_roomId_room_id_fk",
+          "tableFrom": "booking",
+          "tableTo": "room",
+          "columnsFrom": ["roomId"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.hotel": {
+      "name": "hotel",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "titleSearch": {
+          "name": "titleSearch",
+          "type": "tsvector",
+          "primaryKey": false,
+          "notNull": false,
+          "generated": {
+            "as": "to_tsvector('english', \"hotel\".\"title\")",
+            "type": "stored"
+          }
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "country": {
+          "name": "country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "city": {
+          "name": "city",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "locationDescription": {
+          "name": "locationDescription",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gym": {
+          "name": "gym",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "spa": {
+          "name": "spa",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bar": {
+          "name": "bar",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "laundry": {
+          "name": "laundry",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "restaurant": {
+          "name": "restaurant",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "shopping": {
+          "name": "shopping",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "freeParking": {
+          "name": "freeParking",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bikeRental": {
+          "name": "bikeRental",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "freeWifi": {
+          "name": "freeWifi",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "movieNights": {
+          "name": "movieNights",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "swimmingPool": {
+          "name": "swimmingPool",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "coffeeShop": {
+          "name": "coffeeShop",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "addedAt": {
+          "name": "addedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "hotels_title_search_index": {
+          "name": "hotels_title_search_index",
+          "columns": [
+            {
+              "expression": "titleSearch",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "hotel_userId_user_id_fk": {
+          "name": "hotel_userId_user_id_fk",
+          "tableFrom": "hotel",
+          "tableTo": "user",
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.room": {
+      "name": "room",
+      "schema": "",
+      "columns": {
+        "hotelId": {
+          "name": "hotelId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bedCount": {
+          "name": "bedCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guestCount": {
+          "name": "guestCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bathroomCount": {
+          "name": "bathroomCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kingBed": {
+          "name": "kingBed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "queenBen": {
+          "name": "queenBen",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "breakFastPrice": {
+          "name": "breakFastPrice",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "roomPrice": {
+          "name": "roomPrice",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "roomService": {
+          "name": "roomService",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tv": {
+          "name": "tv",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "balcony": {
+          "name": "balcony",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "freeWifi": {
+          "name": "freeWifi",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cityView": {
+          "name": "cityView",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "oceanView": {
+          "name": "oceanView",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mountainView": {
+          "name": "mountainView",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "airCondition": {
+          "name": "airCondition",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "soundProofed": {
+          "name": "soundProofed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "rooms_hotel_index": {
+          "name": "rooms_hotel_index",
+          "columns": [
+            {
+              "expression": "hotelId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "room_hotelId_hotel_id_fk": {
+          "name": "room_hotelId_hotel_id_fk",
+          "tableFrom": "room",
+          "tableTo": "hotel",
+          "columnsFrom": ["hotelId"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     },
     "public.session": {
       "name": "session",

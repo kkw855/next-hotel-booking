@@ -6,10 +6,17 @@ import {
   integer,
   boolean,
   index,
+  customType,
 } from 'drizzle-orm/pg-core'
-import { sql } from 'drizzle-orm'
+import { SQL, sql } from 'drizzle-orm'
 import { createId } from '@paralleldrive/cuid2'
 import type { AdapterAccountType } from 'next-auth/adapters'
+
+const tsVector = customType<{ data: string }>({
+  dataType() {
+    return 'tsvector'
+  },
+})
 
 const LANGUAGE = 'english'
 
@@ -90,7 +97,7 @@ export const authenticators = pgTable(
   }),
 )
 
-export const hotel = pgTable(
+export const hotels = pgTable(
   'hotel',
   {
     id: text('id')
@@ -100,6 +107,10 @@ export const hotel = pgTable(
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     title: text('title'),
+    // GENERATED ALWAYS AS (expression) STORED
+    titleSearch: tsVector('titleSearch', { dimensions: 3 }).generatedAlwaysAs(
+      (): SQL => sql`to_tsvector(${LANGUAGE}, ${hotels.title})`,
+    ),
     description: text('description'),
     image: text('image'),
     country: text('country'),
@@ -122,19 +133,19 @@ export const hotel = pgTable(
     updatedAt: timestamp('updatedAt').$onUpdate(() => new Date()),
   },
   (hotel) => ({
-    titleSearchIndex: index('title_search_index').using(
+    titleSearchIndex: index('hotels_title_search_index').using(
       'gin',
-      sql`to_tsvector(${LANGUAGE}, ${hotel.title})`,
+      hotel.titleSearch,
     ),
   }),
 )
 
-export const room = pgTable(
+export const rooms = pgTable(
   'room',
   {
     hotelId: text('hotelId')
       .notNull()
-      .references(() => hotel.id, { onDelete: 'cascade' }),
+      .references(() => hotels.id, { onDelete: 'cascade' }),
     id: text('id')
       .primaryKey()
       .$default(() => createId()),
@@ -159,20 +170,20 @@ export const room = pgTable(
     soundProofed: boolean('soundProofed'),
   },
   (room) => ({
-    hotelIdIndex: index('hotel_index').on(room.hotelId),
+    hotelIdIndex: index('rooms_hotel_index').on(room.hotelId),
   }),
 )
 
-export const booking = pgTable(
+export const bookings = pgTable(
   'booking',
   {
     hotelId: text('hotelId')
       .notNull()
-      .references(() => hotel.id),
+      .references(() => hotels.id),
     hotelOwnerId: text('hotelOwnerId'),
     roomId: text('roomId')
       .notNull()
-      .references(() => room.id),
+      .references(() => rooms.id),
     id: text('id')
       .primaryKey()
       .$default(() => createId()),
@@ -188,7 +199,7 @@ export const booking = pgTable(
     bookedAt: timestamp('bookedAt').$default(() => new Date()),
   },
   (booking) => ({
-    hotelIndex: index('hotel_index').on(booking.hotelId),
-    roomIndex: index('room_index').on(booking.roomId),
+    hotelIndex: index('bookings_hotel_index').on(booking.hotelId),
+    roomIndex: index('bookings_room_index').on(booking.roomId),
   }),
 )
